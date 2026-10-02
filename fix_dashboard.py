@@ -1,3 +1,9 @@
+import os
+
+base = "/home/muhammad-sanusi/Documents/Projects/ASUP website/asup-jigawa"
+path = f"{base}/app/dashboard/page.tsx"
+
+content = """
 "use client";
 
 import { useEffect, useState } from "react";
@@ -246,3 +252,9 @@ export default function DashboardPage() {
     </div>
   );
 }
+""".lstrip()
+
+os.makedirs(os.path.dirname(path), exist_ok=True)
+with open(path, "w") as f:
+    f.write(content)
+print(f"Done: {content.count(chr(10))} lines written to {path}")
