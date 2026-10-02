@@ -9,6 +9,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -42,8 +43,17 @@ export default function LoginPage() {
           </div>
           <div>
             <label style={{ fontSize: "13px", fontWeight: "600", color: "#374151", display: "block", marginBottom: "4px" }}>Password</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", border: "1px solid #d1d5db", borderRadius: "6px", fontSize: "14px", boxSizing: "border-box" }} />
+            <div style={{ position: "relative" }}>
+              <input type={showPassword ? "text" : "password"} required value={password} onChange={e => setPassword(e.target.value)}
+                style={{ width: "100%", padding: "10px 40px 10px 12px", border: "1px solid #d1d5db", borderRadius: "6px", fontSize: "14px", boxSizing: "border-box" }} />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}
+                style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#888", fontSize: "16px" }}>
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <a href="/forgot-password" style={{ color: "#003366", fontSize: "12px", textDecoration: "none" }}>Forgot password?</a>
           </div>
           <button type="submit" disabled={loading}
             style={{ backgroundColor: "#003366", color: "white", padding: "11px", borderRadius: "6px", border: "none", fontWeight: "bold", fontSize: "14px", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
@@ -51,12 +61,10 @@ export default function LoginPage() {
           </button>
         </form>
         <p style={{ textAlign: "center", fontSize: "13px", color: "#888", margin: "16px 0 0" }}>
-          No account yet?{" "}
-          <a href="/register" style={{ color: "#003366", fontWeight: "600" }}>Create one here</a>
+          No account yet? <a href="/register" style={{ color: "#003366", fontWeight: "600" }}>Create one here</a>
         </p>
         <p style={{ textAlign: "center", fontSize: "13px", color: "#888", margin: "8px 0 0" }}>
-          Admin?{" "}
-          <a href="/admin/login" style={{ color: "#003366", fontWeight: "600" }}>Admin portal →</a>
+          Admin? <a href="/admin/login" style={{ color: "#003366", fontWeight: "600" }}>Admin portal</a>
         </p>
       </div>
     </div>
