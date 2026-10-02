@@ -12,7 +12,7 @@ export default function Home() {
       <section className="bg-gradient-to-br from-asup-primary to-blue-900 text-white py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="w-16 h-16 bg-asup-secondary rounded-full flex items-center justify-center font-bold text-asup-primary text-2xl mx-auto mb-4">A</div>
-          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 leading-tight">ASUP Jigawa State Polytechnic</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 leading-tight">ASUP JSPICT Kazaure State Polytechnic</h1>
           <p className="text-asup-secondary font-semibold mb-2 text-sm sm:text-base">ICT Kazaure Chapter</p>
           <p className="text-gray-300 text-sm mb-6 max-w-xl mx-auto">Academic Staff Union of Polytechnics — advancing excellence and protecting staff rights.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -38,7 +38,7 @@ export default function Home() {
       <section className="py-10 px-4">
         <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-xl font-bold text-asup-primary mb-3">About Our Chapter</h2>
-          <p className="text-gray-700 text-sm leading-relaxed mb-4">The ASUP Jigawa State Polytechnic ICT Kazaure Chapter represents the interests of academic staff, ensuring quality education delivery and promoting professional excellence.</p>
+          <p className="text-gray-700 text-sm leading-relaxed mb-4">The ASUP JSPICT Kazaure State Polytechnic ICT Kazaure Chapter represents the interests of academic staff, ensuring quality education delivery and promoting professional excellence.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-blue-50 rounded-lg p-4">
               <h4 className="font-bold text-asup-primary text-sm mb-1">Our Mission</h4>

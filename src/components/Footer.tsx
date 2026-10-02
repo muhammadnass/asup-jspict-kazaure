@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
           <div>
-            <h4 className="text-asup-secondary font-bold text-sm mb-2">ASUP Jigawa ICT</h4>
+            <h4 className="text-asup-secondary font-bold text-sm mb-2">ASUP JSPICT Kazaure</h4>
             <p className="text-gray-400 text-xs leading-relaxed">
               Academic Staff Union of Polytechnics — Jigawa State Polytechnic ICT Kazaure Chapter.
             </p>

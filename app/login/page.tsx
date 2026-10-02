@@ -28,7 +28,7 @@ export default function LoginPage() {
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
           <div style={{ width: "48px", height: "48px", backgroundColor: "#003366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: "#FFB81C", fontWeight: "bold", fontSize: "20px" }}>A</div>
           <h1 style={{ color: "#003366", fontSize: "20px", fontWeight: "bold", margin: "0 0 4px" }}>Member Sign In</h1>
-          <p style={{ color: "#888", fontSize: "13px", margin: 0 }}>ASUP Jigawa ICT Kazaure Staff Portal</p>
+          <p style={{ color: "#888", fontSize: "13px", margin: 0 }}>ASUP JSPICT Kazaure — Staff Portal</p>
         </div>
         {error && (
           <div style={{ backgroundColor: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", padding: "10px 12px", borderRadius: "6px", fontSize: "13px", marginBottom: "16px" }}>

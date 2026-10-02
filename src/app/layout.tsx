@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'ASUP Jigawa ICT Kazaure',
+  title: 'ASUP JSPICT Kazaure Chapter',
   description: 'Official website of the Academic Staff Union of Polytechnics — Jigawa State Polytechnic ICT Kazaure Chapter',
 }
 

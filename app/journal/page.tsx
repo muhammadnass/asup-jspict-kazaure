@@ -4,7 +4,7 @@ export default function JournalPage() {
     ["🌍", "Scopus and Web of Science indexing target"],
     ["📬", "Open submission for all Nigerian polytechnic academics"],
     ["⚡", "Fast review turnaround — 4 to 6 weeks"],
-    ["🆓", "Free to publish for ASUP Jigawa chapter members"],
+    ["🆓", "Free to publish for ASUP JSPICT Kazaure chapter members"],
   ];
 
   return (
@@ -18,11 +18,11 @@ export default function JournalPage() {
         </div>
 
         <h1 style={{ color: "#003366", fontSize: "28px", fontWeight: "bold", margin: "0 0 12px" }}>
-          ASUP Jigawa ICT Journal
+          ASUP JSPICT Kazaure Journal
         </h1>
 
         <p style={{ color: "#555", fontSize: "16px", lineHeight: "1.7", maxWidth: "520px", margin: "0 auto 32px" }}>
-          We are establishing an official peer-reviewed academic journal for ASUP Jigawa State Polytechnic ICT Kazaure chapter,
+          We are establishing an official peer-reviewed academic journal for ASUP JSPICT Kazaure State Polytechnic ICT Kazaure chapter,
           targeting <strong>Scopus</strong> indexing and open to researchers across all disciplines.
         </p>
 

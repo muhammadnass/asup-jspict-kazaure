@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-cream/10 py-4 text-center text-xs text-cream/50">
-        © {new Date().getFullYear()} ASUP Jigawa State Polytechnic, ICT
+        © {new Date().getFullYear()} ASUP JSPICT Kazaure State Polytechnic, ICT
         Kazaure Chapter. All rights reserved.
       </div>
     </footer>

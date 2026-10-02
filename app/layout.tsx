@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "ASUP Jigawa ICT Kazaure",
+  title: "ASUP JSPICT Kazaure Chapter — Official Website",
   description: "Official website of ASUP — Jigawa State Polytechnic ICT Kazaure Chapter",
 };
 

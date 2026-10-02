@@ -19,7 +19,7 @@ export default async function ArticlesPage() {
           <p style={{ fontSize: "12px", fontWeight: "bold", color: "#FFB81C", letterSpacing: "2px", textTransform: "uppercase", margin: "0 0 6px" }}>Knowledge Hub</p>
           <h1 style={{ color: "#003366", fontSize: "28px", fontWeight: "bold", margin: "0 0 8px" }}>Member Articles</h1>
           <p style={{ color: "#666", fontSize: "14px", margin: 0 }}>
-            Research insights and knowledge shared by ASUP Jigawa ICT Kazaure chapter members and the broader academic community.
+            Research insights and knowledge shared by ASUP JSPICT Kazaure Chapter chapter members and the broader academic community.
           </p>
         </div>
 

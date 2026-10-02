@@ -75,7 +75,7 @@ export default function RegisterPage() {
             {step === "profile" && "Complete Your Profile"}
           </h1>
           <p style={{ color: "#888", fontSize: "13px", margin: 0 }}>
-            {step === "form" && "ASUP Jigawa ICT Kazaure — Staff Portal"}
+            {step === "form" && "ASUP JSPICT Kazaure — Staff Portal"}
             {step === "otp" && `Check ${email} for your 6-digit code`}
             {step === "profile" && "This will appear on the chapter website"}
           </p>

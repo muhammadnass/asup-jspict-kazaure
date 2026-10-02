@@ -25,8 +25,8 @@ export default function Navbar() {
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
             <div style={{ width: "32px", height: "32px", backgroundColor: "#FFB81C", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", color: "#003366", fontSize: "14px", flexShrink: 0 }}>A</div>
             <div style={{ lineHeight: "1.2" }}>
-              <div style={{ color: "white", fontWeight: "bold", fontSize: "13px" }}>ASUP</div>
-              <div style={{ color: "#9ca3af", fontSize: "10px" }}>Jigawa ICT Kazaure</div>
+              <div style={{ color: "white", fontWeight: "bold", fontSize: "13px" }}>ASUP JSPICT</div>
+              <div style={{ color: "#9ca3af", fontSize: "10px" }}>Kazaure Chapter</div>
             </div>
           </Link>
 
