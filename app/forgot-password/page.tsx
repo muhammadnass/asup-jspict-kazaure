@@ -15,7 +15,7 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setError("");
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://asup-jspict-kazaure.vercel.app/reset-password",
+      redirectTo: "https://asupjspict.org.ng/reset-password",
     });
     if (error) { setError(error.message); setLoading(false); return; }
     setSent(true);
