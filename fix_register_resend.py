@@ -1,3 +1,9 @@
+import os
+
+base = "/home/muhammad-sanusi/Documents/Projects/ASUP website/asup-jigawa"
+path = f"{base}/app/register/page.tsx"
+
+content = """
 "use client";
 
 import { useState, useEffect } from "react";
@@ -142,7 +148,7 @@ export default function RegisterPage() {
           <form onSubmit={handleOtp} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             <div>
               <label style={{ fontSize: "13px", fontWeight: "600", color: "#374151", display: "block", marginBottom: "4px" }}>6-Digit OTP Code</label>
-              <input type="text" required value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ""))}
+              <input type="text" required value={otp} onChange={e => setOtp(e.target.value.replace(/\\D/g, ""))}
                 placeholder="123456" maxLength={6}
                 style={{ width: "100%", padding: "12px", border: "1px solid #d1d5db", borderRadius: "6px", fontSize: "24px", textAlign: "center", letterSpacing: "10px", boxSizing: "border-box" }} />
               <p style={{ fontSize: "12px", color: "#888", margin: "6px 0 0" }}>
@@ -219,3 +225,8 @@ export default function RegisterPage() {
     </div>
   );
 }
+""".lstrip()
+
+with open(path, "w") as f:
+    f.write(content)
+print(f"✅ Register page updated: {content.count(chr(10))} lines")
