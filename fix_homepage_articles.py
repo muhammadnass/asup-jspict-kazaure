@@ -1,3 +1,9 @@
+import os
+
+base = "/home/muhammad-sanusi/Documents/Projects/ASUP website/asup-jigawa"
+path = f"{base}/app/page.tsx"
+
+content = """
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
@@ -186,3 +192,14 @@ export default async function Home() {
     </div>
   )
 }
+""".lstrip()
+
+with open(path, "w") as f:
+    f.write(content)
+print(f"✅ Homepage updated: {content.count(chr(10))} lines")
+print("   Features added:")
+print("   - Recent articles section (latest 3)")
+print("   - Article cards with title, excerpt, author, date")
+print("   - Read full article link")
+print("   - View all articles link")
+print("   - Write article CTA")
