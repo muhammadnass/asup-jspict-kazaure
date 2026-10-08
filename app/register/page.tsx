@@ -121,8 +121,8 @@ export default function RegisterPage() {
               <select value={profile.role} onChange={e => setProfile(p => ({ ...p, role: e.target.value }))}
                 style={{ width: "100%", padding: "10px 12px", border: "1px solid #d1d5db", borderRadius: "6px", fontSize: "14px", boxSizing: "border-box" }}>
                 <option value="">Select rank</option>
-                <option>Professor</option>
-                <option>Associate Professor</option>
+                <option>Chief Lecturer</option>
+                <option>Principal Lecturer</option>
                 <option>Senior Lecturer</option>
                 <option>Lecturer I</option>
                 <option>Lecturer II</option>
