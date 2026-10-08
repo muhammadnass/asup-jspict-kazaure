@@ -1,3 +1,9 @@
+import os
+
+base = "/home/muhammad-sanusi/Documents/Projects/ASUP website/asup-jigawa"
+path = f"{base}/app/register/page.tsx"
+
+content = """
 "use client";
 
 import { useState } from "react";
@@ -154,3 +160,8 @@ export default function RegisterPage() {
     </div>
   );
 }
+""".lstrip()
+
+with open(path, "w") as f:
+    f.write(content)
+print(f"✅ Register page updated — no OTP, instant account creation ({content.count(chr(10))} lines)")
