@@ -36,12 +36,9 @@ export default async function Home() {
           <p className="text-gray-300 text-sm mb-6 max-w-xl mx-auto">
             Academic Staff Union of Polytechnics — advancing excellence, protecting staff rights, and fostering professional development.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/members" className="bg-asup-secondary text-asup-primary px-6 py-2.5 rounded font-bold text-sm hover:bg-yellow-400 transition">
+          <div className="flex justify-center">
+            <Link href="/members" className="bg-asup-secondary text-asup-primary px-8 py-2.5 rounded font-bold text-sm hover:bg-yellow-400 transition">
               View Members
-            </Link>
-            <Link href="/register" className="border border-white text-white px-6 py-2.5 rounded font-bold text-sm hover:bg-white hover:text-asup-primary transition">
-              Create Your Profile
             </Link>
           </div>
         </div>
