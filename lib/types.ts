@@ -3,9 +3,14 @@ export type ContentCategory = "history" | "struggles" | "publications";
 export interface Member {
   id: string;
   full_name: string;
-  role: string; // e.g. "Chapter Chairman", "Financial Secretary"
+  role: string;
   bio: string;
   photo_url: string | null;
+  cv_url: string | null;
+  email: string | null;
+  department: string | null;
+  is_approved: boolean;
+  user_id: string | null;
   display_order: number;
   created_at: string;
 }
@@ -25,8 +30,8 @@ export interface ArchiveItem {
   id: string;
   title: string;
   description: string | null;
-  document_url: string; // scanned copy in Supabase Storage
+  document_url: string;
   thumbnail_url: string | null;
-  record_date: string | null; // original date of the hard-copy record
+  record_date: string | null;
   created_at: string;
 }
