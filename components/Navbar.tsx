@@ -8,12 +8,10 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/", label: "Home" },
   { href: "/members", label: "Members" },
-  { href: "/history", label: "History" },
   { href: "/struggles", label: "Struggles" },
-  { href: "/publications", label: "Publications" },
-  { href: "/archives", label: "Archives" },
-  { href: "/articles", label: "Articles" },
-  { href: "/journal", label: "Journal ✨" },
+  { href: "/research-outputs", label: "Research Outputs" },
+  { href: "/events", label: "Events" },
+  { href: "/knowledge-hub", label: "Knowledge Hub" },
 ];
 
 export default function Navbar() {
@@ -45,7 +43,7 @@ export default function Navbar() {
           <p style={{ color: "#9ca3af", fontSize: "11px", margin: 0 }}>
             Official website of ASUP — JSPICT Kazaure Chapter
           </p>
-          <Link href="/login"
+          <Link href="/members"
             style={{ color: "#FFB81C", fontSize: "11px", textDecoration: "none", fontWeight: "600" }}>
             Member Portal →
           </Link>
@@ -70,11 +68,10 @@ export default function Navbar() {
           <div className="desktop-nav" style={{ display: "none", alignItems: "center", gap: "2px" }}>
             {links.map(l => {
               const isActive = pathname === l.href;
-              const isJournal = l.href === "/journal";
               return (
                 <Link key={l.href} href={l.href}
                   style={{
-                    color: isJournal ? "#FFB81C" : isActive ? "#FFB81C" : "#d1d5db",
+                    color: isActive ? "#FFB81C" : "#d1d5db",
                     textDecoration: "none",
                     fontSize: "12px",
                     fontWeight: isActive ? "700" : "500",
@@ -88,7 +85,7 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link href="/login"
+            <Link href="/members"
               style={{
                 backgroundColor: "#2E8B57",
                 color: "white",
@@ -129,7 +126,7 @@ export default function Navbar() {
                 <Link key={l.href} href={l.href}
                   style={{
                     display: "block",
-                    color: l.href === "/journal" ? "#FFB81C" : isActive ? "#FFB81C" : "#d1d5db",
+                    color: isActive ? "#FFB81C" : "#d1d5db",
                     textDecoration: "none",
                     padding: "12px 16px",
                     fontSize: "15px",
@@ -142,7 +139,7 @@ export default function Navbar() {
               );
             })}
             <div style={{ padding: "8px 16px 0" }}>
-              <Link href="/login"
+              <Link href="/members"
                 style={{
                   display: "block",
                   backgroundColor: "#2E8B57",

@@ -1,7 +1,4 @@
-import ContentList from "@/components/ContentList";
-
-export const revalidate = 60;
-
-export default function HistoryPage() {
-  return <ContentList category="history" />;
+import { redirect } from 'next/navigation'
+export default function Redirect() {
+  redirect('/struggles')
 }

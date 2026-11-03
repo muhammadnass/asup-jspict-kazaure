@@ -7,7 +7,7 @@ export default async function Home() {
   const supabase = createClient()
   const { data: articles } = await supabase
     .from('articles')
-    .select('id, title, excerpt, created_at, members(full_name, photo_url, role)')
+    .select('id, title, excerpt, created_at, members(full_name, photo_url, role, department)')
     .eq('published', true)
     .order('created_at', { ascending: false })
     .limit(3)
@@ -16,9 +16,9 @@ export default async function Home() {
 
   const features = [
     { title: 'Members', desc: 'Meet our chapter members and their profiles.', href: '/members', icon: '👥' },
-    { title: 'History', desc: 'Explore our chapter milestones and struggles.', href: '/history', icon: '📚' },
-    { title: 'Publications', desc: 'Research papers and articles by our members.', href: '/publications', icon: '📰' },
-    { title: 'Archives', desc: 'Historical records and institutional documents.', href: '/archives', icon: '🗂️' },
+    { title: 'Struggles', desc: 'Our history and challenges as a chapter.', href: '/struggles', icon: '📚' },
+    { title: 'Research Outputs', desc: 'Research papers and publications by our members.', href: '/research-outputs', icon: '📰' },
+    { title: 'Events', desc: 'Chapter events, workshops and institutional records.', href: '/events', icon: '🗂️' },
   ]
 
   return (
@@ -61,17 +61,15 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Recent Articles ── */}
+      {/* ── Recent Articles / Knowledge Hub ── */}
       <section className="py-10 px-4">
         <div className="max-w-5xl mx-auto">
-
-          {/* Section header */}
           <div className="flex justify-between items-end mb-6">
             <div>
               <p className="text-xs font-bold text-asup-secondary uppercase tracking-widest mb-1">Knowledge Hub</p>
               <h2 className="text-xl font-bold text-asup-primary">Recent Articles</h2>
             </div>
-            <Link href="/articles" className="text-asup-primary text-sm font-semibold hover:underline">
+            <Link href="/knowledge-hub" className="text-asup-primary text-sm font-semibold hover:underline">
               View all →
             </Link>
           </div>
@@ -92,26 +90,17 @@ export default async function Home() {
                 return (
                   <Link key={article.id} href={`/articles/${article.id}`}
                     className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition border border-gray-100 flex flex-col">
-
-                    {/* Colour band */}
                     <div className="h-1.5 bg-gradient-to-r from-asup-primary to-asup-secondary" />
-
                     <div className="p-5 flex flex-col flex-1">
-                      {/* Title */}
                       <h3 className="font-bold text-asup-primary text-sm leading-snug mb-2 line-clamp-3">
                         {article.title}
                       </h3>
-
-                      {/* Excerpt */}
                       {article.excerpt && (
                         <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-3 flex-1">
                           {article.excerpt}
                         </p>
                       )}
-
-                      {/* Footer */}
                       <div className="flex items-center gap-2 mt-auto pt-3 border-t border-gray-100">
-                        {/* Avatar */}
                         <div className="w-7 h-7 rounded-full bg-blue-100 overflow-hidden flex-shrink-0">
                           {author?.photo_url
                             ? <img src={author.photo_url} className="w-full h-full object-cover" alt="" />
@@ -136,14 +125,6 @@ export default async function Home() {
               })}
             </div>
           )}
-
-          {/* Write CTA */}
-          <div className="mt-6 text-center">
-            <Link href="/login"
-              className="inline-block bg-asup-primary text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 transition">
-              Sign In to Write an Article
-            </Link>
-          </div>
         </div>
       </section>
 
