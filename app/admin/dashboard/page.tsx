@@ -15,7 +15,7 @@ export default async function AdminDashboard() {
     supabase.from("members").select("*", { count: "exact", head: true }).eq("is_approved", false),
     supabase.from("content_posts").select("*", { count: "exact", head: true }),
     supabase.from("archive_items").select("*", { count: "exact", head: true }),
-    supabase.from("research_outputs").select("*", { count: "exact", head: true }).catch(() => ({ count: 0 })),
+    supabase.from("research_outputs").select("*", { count: "exact", head: true }),
   ]);
 
   const cards = [

@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { createArchive, deleteArchive } from "@/lib/actions/archives";
+import { createArchiveItem, deleteArchiveItem } from "@/lib/actions/archives";
 import type { ArchiveItem } from "@/lib/types";
 
 export default async function AdminEventsPage() {
@@ -18,7 +18,7 @@ export default async function AdminEventsPage() {
       {/* Upload new event record */}
       <div style={{ backgroundColor: "white", borderRadius: "12px", padding: "24px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
         <h2 style={{ color: "#00214D", fontSize: "17px", fontWeight: "700", margin: "0 0 18px" }}>Add Event Record</h2>
-        <form action={createArchive} style={{ display: "grid", gap: "14px", gridTemplateColumns: "1fr 1fr" }}>
+        <form action={createArchiveItem} style={{ display: "grid", gap: "14px", gridTemplateColumns: "1fr 1fr" }}>
           <div style={{ gridColumn: "1 / -1" }}>
             <label style={{ fontSize: "13px", fontWeight: "600", color: "#374151", display: "block", marginBottom: "6px" }}>Title *</label>
             <input name="title" required style={{ width: "100%", padding: "10px 14px", border: "1.5px solid #d1d5db", borderRadius: "8px", fontSize: "14px", boxSizing: "border-box" }} />
@@ -67,7 +67,7 @@ export default async function AdminEventsPage() {
                     style={{ fontSize: "13px", color: "#2E8B57", fontWeight: "600", textDecoration: "none" }}>
                     View
                   </a>
-                  <form action={deleteArchive.bind(null, item.id)}>
+                  <form action={deleteArchiveItem.bind(null, item.id)}>
                     <button type="submit" style={{ background: "none", border: "none", color: "#dc2626", cursor: "pointer", fontSize: "13px", fontWeight: "600" }}>
                       Delete
                     </button>
