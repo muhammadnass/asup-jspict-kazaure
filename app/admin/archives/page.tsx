@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { createArchiveItem, deleteArchiveItem } from "@/lib/actions/archives";
 import type { ArchiveItem } from "@/lib/types";
