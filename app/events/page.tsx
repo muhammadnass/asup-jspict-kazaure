@@ -45,8 +45,6 @@ export default async function EventsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ textDecoration: "none", display: "block", backgroundColor: "white", borderRadius: "12px", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", border: "1px solid #f0f0f0", transition: "transform 0.2s, box-shadow 0.2s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(0,0,0,0.1)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
               >
                 {/* Thumbnail / Placeholder */}
                 <div style={{ height: "160px", backgroundColor: "#00214D", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>

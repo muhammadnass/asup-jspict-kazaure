@@ -56,8 +56,6 @@ export default async function AdminDashboard() {
               boxShadow: "0 2px 8px rgba(0,0,0,0.06)", border: "1px solid #f0f0f0",
               transition: "transform 0.15s, box-shadow 0.15s",
             }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(0,0,0,0.1)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
             >
               <p style={{ fontSize: "36px", fontWeight: "800", color: c.color, margin: "0 0 4px" }}>{c.count}</p>
               <p style={{ fontSize: "13px", color: "#555", margin: 0 }}>{c.label}</p>

@@ -21,8 +21,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {links.map(l => (
               <Link key={l.href} href={l.href}
                 style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "13px", fontWeight: "500", whiteSpace: "nowrap" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "white")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}>
                 {l.label}
               </Link>
             ))}
