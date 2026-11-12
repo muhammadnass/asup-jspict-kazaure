@@ -12,6 +12,7 @@ const links = [
   { href: "/research-outputs", label: "Research Outputs" },
   { href: "/events", label: "Events" },
   { href: "/knowledge-hub", label: "Knowledge Hub" },
+  { href: "/e-learning", label: "E-Learning" },
 ];
 
 export default function Navbar() {
@@ -30,8 +31,6 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-        .nav-profile-btn { background-color: #2E8B57 !important; }
-        .nav-profile-btn:hover { background-color: #236e45 !important; }
         @media (min-width: 768px) {
           .desktop-nav { display: flex !important; }
           .hamburger { display: none !important; }
@@ -46,15 +45,16 @@ export default function Navbar() {
         transition: "box-shadow 0.3s ease",
         borderBottom: "3px solid #2E8B57",
       }}>
+        {/* Top bar */}
         <div style={{ backgroundColor: "#001535", padding: "4px 16px" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <p style={{ color: "#9ca3af", fontSize: "11px", margin: 0 }}>
               Official website of ASUP — JSPICT Kazaure Chapter
             </p>
-            <Link href="/members"
+            <a href="https://www.jspict.edu.ng" target="_blank" rel="noopener noreferrer"
               style={{ color: "#FFB81C", fontSize: "11px", textDecoration: "none", fontWeight: "600" }}>
-              Member Portal →
-            </Link>
+              JSPICT Portal →
+            </a>
           </div>
         </div>
 
@@ -90,20 +90,6 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-              <Link href="/members" className="nav-profile-btn"
-                style={{
-                  color: "white",
-                  padding: "8px 16px",
-                  borderRadius: "6px",
-                  textDecoration: "none",
-                  fontSize: "12px",
-                  fontWeight: "700",
-                  marginLeft: "10px",
-                  whiteSpace: "nowrap",
-                  border: "none",
-                }}>
-                My Profile
-              </Link>
             </div>
 
             <button onClick={() => setOpen(!open)} className="hamburger"
@@ -137,22 +123,6 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-              <div style={{ padding: "8px 16px 0" }}>
-                <Link href="/members"
-                  style={{
-                    display: "block",
-                    backgroundColor: "#2E8B57",
-                    color: "white",
-                    padding: "12px 16px",
-                    borderRadius: "8px",
-                    textDecoration: "none",
-                    fontSize: "15px",
-                    fontWeight: "700",
-                    textAlign: "center",
-                  }}>
-                  My Profile / Sign In
-                </Link>
-              </div>
             </div>
           )}
         </div>

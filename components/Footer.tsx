@@ -31,10 +31,11 @@ export default function Footer() {
             <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
                 { href: "/members", label: "Members" },
-                { href: "/history", label: "History" },
-                { href: "/publications", label: "Publications" },
-                { href: "/archives", label: "Archives" },
-                { href: "/articles", label: "Articles" },
+                { href: "/struggles", label: "Struggles" },
+                { href: "/research-outputs", label: "Research Outputs" },
+                { href: "/events", label: "Events" },
+                { href: "/knowledge-hub", label: "Knowledge Hub" },
+                { href: "/e-learning", label: "E-Learning" },
               ].map(l => (
                 <li key={l.href}>
                   <Link href={l.href} style={{ color: "#9ca3af", textDecoration: "none", fontSize: "13px" }}>
@@ -58,21 +59,18 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Member Portal */}
+          {/* JSPICT Link */}
           <div>
             <p style={{ color: "#FFB81C", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>
-              Staff Portal
+              JSPICT Polytechnic
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <Link href="/login"
-                style={{ display: "inline-block", backgroundColor: "#2E8B57", color: "white", padding: "8px 16px", borderRadius: "6px", textDecoration: "none", fontSize: "13px", fontWeight: "600", textAlign: "center" }}>
-                Member Login
-              </Link>
-              <Link href="/register"
-                style={{ display: "inline-block", border: "1px solid #FFB81C", color: "#FFB81C", padding: "8px 16px", borderRadius: "6px", textDecoration: "none", fontSize: "13px", fontWeight: "600", textAlign: "center" }}>
-                Create Profile
-              </Link>
-            </div>
+            <p style={{ fontSize: "12px", color: "#9ca3af", marginBottom: "12px", lineHeight: "1.6" }}>
+              Interested in studying at JSPICT? Explore our programmes including ND Artificial Intelligence and International Informatics Diploma.
+            </p>
+            <a href="https://www.jspict.edu.ng" target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-block", backgroundColor: "#2E8B57", color: "white", padding: "8px 16px", borderRadius: "6px", textDecoration: "none", fontSize: "13px", fontWeight: "600", textAlign: "center" }}>
+              Visit JSPICT Website →
+            </a>
           </div>
         </div>
 
