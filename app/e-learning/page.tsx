@@ -1,18 +1,99 @@
 import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function ELearningPage() {
-  const supabase = createClient();
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data: { session } } = await supabase.auth.getSession();
+
+  // ── NOT LOGGED IN: show login wall ──
+  if (!session) {
+    return (
+      <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+        {/* Header */}
+        <div style={{ background: "linear-gradient(135deg, #00214D, #003d99)", padding: "clamp(32px,6vw,60px) 24px" }}>
+          <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+            <p style={{ color: "#FFB81C", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>
+              JSPICT E-Learning Platform
+            </p>
+            <h1 style={{ color: "white", fontSize: "clamp(22px,5vw,34px)", fontWeight: "800", marginBottom: "12px" }}>
+              Course Materials & Resources
+            </h1>
+            <p style={{ color: "#9ca3af", fontSize: "14px", lineHeight: "1.7", maxWidth: "480px", margin: "0 auto" }}>
+              Access lecture videos, PDF notes, presentation slides and assignments uploaded by your lecturers.
+            </p>
+          </div>
+        </div>
+
+        {/* Login wall */}
+        <div style={{ maxWidth: "680px", margin: "0 auto", padding: "clamp(24px,5vw,48px) 20px" }}>
+
+          {/* Student card */}
+          <div style={{ backgroundColor: "white", borderRadius: "14px", padding: "clamp(20px,5vw,32px)", marginBottom: "20px", border: "1px solid #e5e7eb", borderTop: "4px solid #2E8B57", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "14px" }}>
+              <div style={{ fontSize: "36px" }}>🎓</div>
+              <div>
+                <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "800", margin: "0 0 2px" }}>I am a Student</h2>
+                <p style={{ color: "#6b7280", fontSize: "13px", margin: 0 }}>Access your course content and learning materials</p>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <Link href="/student/login"
+                style={{ flex: 1, minWidth: "140px", backgroundColor: "#2E8B57", color: "white", padding: "12px 20px", borderRadius: "8px", fontWeight: "700", fontSize: "14px", textDecoration: "none", textAlign: "center", display: "block" }}>
+                Sign In
+              </Link>
+              <Link href="/student/register"
+                style={{ flex: 1, minWidth: "140px", backgroundColor: "#f0fdf4", color: "#166534", padding: "12px 20px", borderRadius: "8px", fontWeight: "700", fontSize: "14px", textDecoration: "none", textAlign: "center", display: "block", border: "1px solid #86efac" }}>
+                Create Account
+              </Link>
+            </div>
+            <p style={{ color: "#9ca3af", fontSize: "11px", marginTop: "10px", margin: "10px 0 0" }}>
+              New student accounts are activated after admin approval.
+            </p>
+          </div>
+
+          {/* Lecturer card */}
+          <div style={{ backgroundColor: "white", borderRadius: "14px", padding: "clamp(20px,5vw,32px)", border: "1px solid #e5e7eb", borderTop: "4px solid #00214D", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "14px" }}>
+              <div style={{ fontSize: "36px" }}>👨‍🏫</div>
+              <div>
+                <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "800", margin: "0 0 2px" }}>I am a Lecturer</h2>
+                <p style={{ color: "#6b7280", fontSize: "13px", margin: 0 }}>Upload course materials, assignments and projects</p>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <Link href="/members/login"
+                style={{ flex: 1, minWidth: "140px", backgroundColor: "#00214D", color: "white", padding: "12px 20px", borderRadius: "8px", fontWeight: "700", fontSize: "14px", textDecoration: "none", textAlign: "center", display: "block" }}>
+                Sign In
+              </Link>
+              <Link href="/register"
+                style={{ flex: 1, minWidth: "140px", backgroundColor: "#f0f4ff", color: "#00214D", padding: "12px 20px", borderRadius: "8px", fontWeight: "700", fontSize: "14px", textDecoration: "none", textAlign: "center", display: "block", border: "1px solid #c7d2fe" }}>
+                Create Account
+              </Link>
+            </div>
+            <p style={{ color: "#9ca3af", fontSize: "11px", marginTop: "10px", margin: "10px 0 0" }}>
+              Lecturer accounts require admin approval before you can upload materials.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // ── LOGGED IN: show courses ──
   const { data: courses } = await supabase
     .from("courses")
     .select("*, members(full_name, photo_url, role, department, title)")
+    .eq("published", true)
     .order("created_at", { ascending: false });
 
   const list = courses ?? [];
 
-  // Group by department
   const byDept: Record<string, typeof list> = {};
   list.forEach((c: any) => {
     const dept = (c.members as any)?.department ?? "General";
@@ -24,14 +105,21 @@ export default async function ELearningPage() {
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* Header */}
       <div style={{ background: "linear-gradient(135deg, #00214D, #003d99)", padding: "40px 24px" }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <p style={{ color: "#FFB81C", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>
-            JSPICT E-Learning Platform
-          </p>
-          <h1 style={{ color: "white", fontSize: "26px", fontWeight: "800", marginBottom: "8px" }}>Course Materials</h1>
-          <p style={{ color: "#9ca3af", fontSize: "14px", maxWidth: "500px" }}>
-            Access lecture videos, PDF notes, and presentation slides uploaded by your lecturers. Sign in to view course content.
-          </p>
+        <div style={{ maxWidth: "1000px", margin: "0 auto", display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+          <div>
+            <p style={{ color: "#FFB81C", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>
+              JSPICT E-Learning Platform
+            </p>
+            <h1 style={{ color: "white", fontSize: "clamp(20px,5vw,28px)", fontWeight: "800", marginBottom: "4px" }}>Course Materials</h1>
+            <p style={{ color: "#9ca3af", fontSize: "13px", margin: 0 }}>
+              Welcome back — {list.length} course{list.length !== 1 ? "s" : ""} available
+            </p>
+          </div>
+          <form action="/api/student/logout" method="POST">
+            <button type="submit" style={{ backgroundColor: "rgba(255,255,255,0.1)", color: "white", border: "1px solid rgba(255,255,255,0.2)", padding: "8px 16px", borderRadius: "6px", fontSize: "12px", cursor: "pointer", fontWeight: "600" }}>
+              Sign Out
+            </button>
+          </form>
         </div>
       </div>
 
@@ -82,18 +170,6 @@ export default async function ELearningPage() {
             </div>
           ))
         )}
-
-        {/* Student login CTA */}
-        <div style={{ backgroundColor: "#00214D", borderRadius: "10px", padding: "24px", textAlign: "center", marginTop: "32px" }}>
-          <h3 style={{ color: "white", fontSize: "16px", fontWeight: "700", marginBottom: "8px" }}>Access Full Course Content</h3>
-          <p style={{ color: "#9ca3af", fontSize: "13px", marginBottom: "16px" }}>
-            Students must sign in to download materials and watch lecture videos.
-          </p>
-          <Link href="/student/login"
-            style={{ display: "inline-block", backgroundColor: "#2E8B57", color: "white", padding: "10px 24px", borderRadius: "6px", fontWeight: "700", fontSize: "13px", textDecoration: "none" }}>
-            Student Sign In →
-          </Link>
-        </div>
       </div>
     </div>
   );

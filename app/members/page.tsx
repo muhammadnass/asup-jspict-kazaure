@@ -41,20 +41,6 @@ export default async function MembersPage() {
           </div>
         )}
 
-        {/* CTA */}
-        <div className="mt-10 rounded-xl p-6 text-center text-white" style={{ backgroundColor: "#003366" }}>
-          <h3 className="font-bold text-base mb-1">Are you a staff member?</h3>
-          <p className="text-gray-300 text-xs mb-4">
-            Contact the chapter PRO to have your profile added to this page.
-          </p>
-          <a
-            href="mailto:msnasir.international@jspict.edu.ng"
-            className="inline-block px-5 py-2 rounded font-bold text-xs hover:opacity-90 transition"
-            style={{ backgroundColor: "#FFB81C", color: "#003366" }}
-          >
-            Contact PRO
-          </a>
-        </div>
       </div>
     </div>
   );
