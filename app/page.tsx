@@ -7,7 +7,7 @@ export default async function Home() {
   const supabase = createClient()
   const { data: articles } = await supabase
     .from('articles')
-    .select('id, title, excerpt, created_at, members(full_name, photo_url, role, department)')
+    .select('id, title, excerpt, created_at, author:author_id(full_name, photo_url, role, department)')
     .eq('published', true)
     .order('created_at', { ascending: false })
     .limit(3)
@@ -146,7 +146,7 @@ export default async function Home() {
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
               {recentArticles.map((article: any) => {
-                const author = article.members
+                const author = article.author
                 const date = new Date(article.created_at).toLocaleDateString('en-NG', {
                   day: 'numeric', month: 'short', year: 'numeric'
                 })
