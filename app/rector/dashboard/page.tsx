@@ -1,12 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function RectorDashboard() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) redirect("/rector/login");
