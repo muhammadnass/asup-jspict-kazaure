@@ -21,10 +21,8 @@
   --border: #e2e8f0;
 }
 
-/* Smooth link hover */
 a { transition: color 0.2s, opacity 0.2s; }
 
-/* Card hover effect */
 .card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -33,7 +31,6 @@ a { transition: color 0.2s, opacity 0.2s; }
   box-shadow: 0 10px 30px rgba(0, 33, 77, 0.12);
 }
 
-/* Section heading accent */
 .section-label {
   color: var(--green);
   font-size: 11px;
@@ -42,7 +39,60 @@ a { transition: color 0.2s, opacity 0.2s; }
   letter-spacing: 0.12em;
 }
 
-/* Responsive utilities */
+img { max-width: 100%; }
+input, select, textarea, button { font-family: inherit; -webkit-appearance: none; appearance: none; }
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .admin-nav-links { display: none !important; }
+  .admin-nav-mobile { display: flex !important; }
+}
+
 @media (max-width: 640px) {
   .hide-mobile { display: none !important; }
+  .stack-mobile { flex-direction: column !important; }
+  .full-mobile { width: 100% !important; }
+}
+
+@media (max-width: 540px) {
+  .modal-wrap {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .modal-inner {
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 92vh !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .rector-stats {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .rector-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (hover: none) {
+  .card-hover:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(0, 33, 77, 0.15);
+  }
 }
