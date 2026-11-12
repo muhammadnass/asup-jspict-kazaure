@@ -79,7 +79,7 @@ export default function StudentLoginPage() {
         </div>
 
         <p style={{ textAlign: "center", fontSize: "12px", color: "#9ca3af", marginTop: "16px" }}>
-          JSPICT students only. Contact your lecturer for access credentials.
+          JSPICT students only. Contact your lecturer for access credentials. <a href="/student/register" style="color:#2E8B57;font-weight:700;">Create account →</a>
         </p>
       </div>
     </div>
