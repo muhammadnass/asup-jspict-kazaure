@@ -1,12 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function ELearningPage() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const { data: { session } } = await supabase.auth.getSession();
 
