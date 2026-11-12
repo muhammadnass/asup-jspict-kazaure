@@ -5,10 +5,15 @@ import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
 const DEPARTMENTS = [
-  "Computer Science", "Information Technology", "Business Administration",
-  "Accountancy", "Mass Communication", "Science Laboratory Technology",
-  "Electrical Engineering", "Civil Engineering", "Mechanical Engineering",
-  "International Program", "Other",
+  "Computer Engineering",
+  "Computer Science",
+  "Electrical/Electronics Engineering",
+  "Health Information Management",
+  "Library and Information Science",
+  "Office Technology and Management",
+  "Printing Technology",
+  "Statistics",
+  "General Studies",
 ];
 
 const LEVELS = ["ND 1", "ND 2", "HND 1", "HND 2"];
