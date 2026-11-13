@@ -53,7 +53,7 @@ export default async function AdminStudentsPage() {
               <td style={{ padding: "12px 14px", color: "#6b7280" }}>{s.email}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.department}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.level}</td>
-              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.reg_no ?? "—"}</td>
+              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.matric_no ?? "—"}</td>
               <td style={{ padding: "12px 14px" }}>
                 <ToggleButton studentId={s.id} approved={s.approved} />
               </td>

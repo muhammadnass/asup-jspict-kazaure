@@ -11,7 +11,7 @@ export default async function StudentDashboard() {
 
   const userEmail = session.user.email ?? "";
   const { data: student } = await supabase.from("students").select("*").eq("email", userEmail).single();
-  if (!student?.is_approved) redirect("/e-learning");
+  if (!student?.approved) redirect("/e-learning");
 
   const studentId = student.id;
 
@@ -58,7 +58,7 @@ export default async function StudentDashboard() {
                 Welcome back, {student.full_name.split(" ")[0]}! 👋
               </h1>
               <p style={{ color: "#9ca3af", fontSize: "13px", margin: 0 }}>
-                {student.department} · {student.matric_number ?? ""}
+                {student.department} · {student.matric_no ?? ""}
               </p>
             </div>
             <Link href="/e-learning/programmes" style={{ backgroundColor: "#FFB81C", color: "#00214D", padding: "12px 20px", borderRadius: "8px", fontWeight: "700", fontSize: "13px", textDecoration: "none" }}>
