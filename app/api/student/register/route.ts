@@ -1,7 +1,16 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServerClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+
+function createAdminClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+}
 
 export async function POST(req: NextRequest) {
   const { full_name, email, password, department, level, matric_no } = await req.json();
@@ -10,15 +19,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "All required fields must be filled." }, { status: 400 });
   }
 
-  // Use server-side Supabase — does NOT touch the browser session
-  const supabase = createClient();
+  const supabase = createServerClient();
+  const admin = createAdminClient();
 
   // Check if already registered
   const { data: existing } = await supabase.from("students").select("id").eq("email", email).single();
   if (existing) return NextResponse.json({ error: "User already registered" }, { status: 409 });
 
-  // Sign up via admin auth (server-side, no session overwrite)
-  const { data, error: signUpErr } = await supabase.auth.admin.createUser({
+  // Create auth user server-side — does NOT overwrite the browser session
+  const { data, error: signUpErr } = await admin.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
@@ -39,8 +48,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (insertErr) {
-    // Rollback: delete the auth user we just created
-    if (data.user?.id) await supabase.auth.admin.deleteUser(data.user.id);
+    if (data.user?.id) await admin.auth.admin.deleteUser(data.user.id);
     return NextResponse.json({ error: insertErr.message }, { status: 500 });
   }
 
