@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
 const DEPARTMENTS = [
@@ -19,14 +18,13 @@ const DEPARTMENTS = [
 const LEVELS = ["ND 1", "ND 2", "HND 1", "HND 2"];
 
 export default function StudentRegisterPage() {
-  const supabase = createClient();
   const [step, setStep] = useState<"form" | "done">("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     full_name: "", email: "", password: "",
-    department: "", level: "", reg_no: "",
+    department: "", level: "", matric_no: "",
   });
 
   const set = (k: string, v: string) => setForm(p => ({ ...p, [k]: v }));
@@ -35,29 +33,18 @@ export default function StudentRegisterPage() {
     e.preventDefault();
     setLoading(true); setError("");
 
-    const { data, error: signUpErr } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: { data: { role: "student" } },
-    });
-
-    if (signUpErr) { setError(signUpErr.message); setLoading(false); return; }
-
-    const { error: insertErr } = await supabase.from("students").insert({
-      user_id: data.user?.id,
-      full_name: form.full_name,
-      email: form.email,
-      department: form.department,
-      level: form.level,
-      reg_no: form.reg_no || null,
-    });
-
-    if (insertErr) {
-      // students table may not exist yet — still let them in
-      console.warn("students table insert:", insertErr.message);
+    try {
+      const res = await fetch("/api/student/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const json = await res.json();
+      if (!res.ok) { setError(json.error || "Registration failed"); setLoading(false); return; }
+      setStep("done");
+    } catch {
+      setError("Network error. Please try again.");
     }
-
-    setStep("done");
     setLoading(false);
   };
 
@@ -76,7 +63,6 @@ export default function StudentRegisterPage() {
     <div style={{ minHeight: "100vh", backgroundColor: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
       <div style={{ width: "100%", maxWidth: "460px" }}>
 
-        {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
           <div style={{ width: "64px", height: "64px", borderRadius: "50%", overflow: "hidden", border: "3px solid #2E8B57", margin: "0 auto 12px", backgroundColor: "white" }}>
             <Image src="/asup-logo.png" alt="ASUP" width={64} height={64} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -139,8 +125,8 @@ export default function StudentRegisterPage() {
                   </select>
                 </div>
                 <div>
-                  <label style={labelStyle}>Reg. No. <span style={{ color: "#9ca3af", fontWeight: 400 }}>(optional)</span></label>
-                  <input type="text" value={form.reg_no} onChange={e => set("reg_no", e.target.value)} style={inputStyle} placeholder="e.g. JSPICT/ND/22/001" />
+                  <label style={labelStyle}>Matric No. <span style={{ color: "#9ca3af", fontWeight: 400 }}>(optional)</span></label>
+                  <input type="text" value={form.matric_no} onChange={e => set("matric_no", e.target.value)} style={inputStyle} placeholder="e.g. JSPICT/ND/22/001" />
                 </div>
               </div>
 
@@ -159,17 +145,13 @@ export default function StudentRegisterPage() {
           {step === "done" && (
             <div style={{ textAlign: "center", padding: "16px 0" }}>
               <div style={{ fontSize: "52px", marginBottom: "16px" }}>🎓</div>
-              <h2 style={{ color: "#00214D", fontWeight: "800", fontSize: "20px", margin: "0 0 12px" }}>Welcome to JSPICT E-Learning!</h2>
+              <h2 style={{ color: "#00214D", fontWeight: "800", fontSize: "20px", margin: "0 0 12px" }}>Account Created!</h2>
               <p style={{ color: "#6b7280", fontSize: "14px", lineHeight: "1.7", margin: "0 0 24px" }}>
-                Your account is ready. You can now access all your course materials.
+                Your account is pending approval by the admin. Once approved, you can sign in and access all your course materials.
               </p>
-              <a href="/e-learning"
-                style={{ display: "block", backgroundColor: "#2E8B57", color: "white", padding: "14px", borderRadius: "8px", textDecoration: "none", fontWeight: "700", fontSize: "15px", marginBottom: "12px" }}>
-                Go to E-Learning →
-              </a>
               <a href="/student/login"
-                style={{ display: "block", backgroundColor: "#f0fdf4", color: "#2E8B57", padding: "12px", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px", border: "1px solid #86efac" }}>
-                Sign In Instead
+                style={{ display: "block", backgroundColor: "#2E8B57", color: "white", padding: "14px", borderRadius: "8px", textDecoration: "none", fontWeight: "700", fontSize: "15px" }}>
+                Go to Sign In →
               </a>
             </div>
           )}
