@@ -161,6 +161,7 @@ export default function DashboardPage() {
     { id: "profile", label: "My Profile" },
     { id: "publications", label: "Publications" },
     { id: "articles", label: "My Articles" },
+    { id: "assessments", label: "📝 Assessments" },
   ];
 
   return (
@@ -376,6 +377,18 @@ export default function DashboardPage() {
                   For now, include your publications in your biography in the My Profile tab.
                 </p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ASSESSMENTS TAB ── */}
+        {activeTab === "assessments" && (
+          <div style={{ backgroundColor: "white", borderRadius: "14px", boxShadow: "0 2px 12px rgba(0,33,77,0.08)", overflow: "hidden" }}>
+            <div style={{ height: "4px", background: "linear-gradient(90deg, #00214D, #2E8B57)" }} />
+            <div style={{ padding: "28px" }}>
+              <h3 style={{ color: "#00214D", fontSize: "17px", fontWeight: "800", margin: "0 0 8px" }}>My Assessments</h3>
+              <p style={{ color: "#64748b", fontSize: "13px", marginBottom: "24px" }}>Create CA tests and exams, generate questions with AI, and export results.</p>
+              <a href="/dashboard/assessment" style={{ display: "inline-block", backgroundColor: "#00214D", color: "white", padding: "11px 24px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: "700" }}>📝 Go to Assessments</a>
             </div>
           </div>
         )}
