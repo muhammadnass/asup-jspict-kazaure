@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -8,6 +9,7 @@ async function ToggleButton({ studentId, approved }: { studentId: string; approv
     "use server";
     const supabase = createClient();
     await supabase.from("students").update({ approved: !approved }).eq("id", studentId);
+    revalidatePath("/admin/students");
   }
   return (
     <form action={toggle}>
