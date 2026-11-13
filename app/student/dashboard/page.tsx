@@ -11,7 +11,34 @@ export default async function StudentDashboard() {
 
   const userEmail = session.user.email ?? "";
   const { data: student } = await supabase.from("students").select("*").eq("email", userEmail).single();
-  if (!student?.approved) redirect("/e-learning");
+
+  // Not in students table at all
+  if (!student) redirect("/student/login");
+
+  // Pending approval — show holding screen
+  if (!student.approved) {
+    return (
+      <div style={{ minHeight: "100vh", backgroundColor: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+        <div style={{ maxWidth: "480px", width: "100%", textAlign: "center" }}>
+          <div style={{ fontSize: "64px", marginBottom: "16px" }}>⏳</div>
+          <h1 style={{ color: "#00214D", fontSize: "24px", fontWeight: "800", marginBottom: "12px" }}>Account Pending Approval</h1>
+          <p style={{ color: "#6b7280", fontSize: "15px", lineHeight: "1.7", marginBottom: "28px" }}>
+            Hi <strong>{student.full_name.split(" ")[0]}</strong>, your account has been created but is awaiting approval from the admin. You will be able to access course materials once approved.
+          </p>
+          <div style={{ backgroundColor: "white", borderRadius: "12px", padding: "20px", border: "1px solid #e5e7eb", marginBottom: "24px", textAlign: "left" }}>
+            <p style={{ color: "#374151", fontSize: "13px", margin: "0 0 6px" }}><strong>Name:</strong> {student.full_name}</p>
+            <p style={{ color: "#374151", fontSize: "13px", margin: "0 0 6px" }}><strong>Department:</strong> {student.department}</p>
+            <p style={{ color: "#374151", fontSize: "13px", margin: 0 }}><strong>Level:</strong> {student.level}</p>
+          </div>
+          <form action="/auth/signout" method="post">
+            <button type="submit" style={{ backgroundColor: "#f3f4f6", color: "#374151", padding: "10px 24px", borderRadius: "8px", border: "none", fontWeight: "600", fontSize: "14px", cursor: "pointer" }}>
+              Sign Out
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   const studentId = student.id;
 

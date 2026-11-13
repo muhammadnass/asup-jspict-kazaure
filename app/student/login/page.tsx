@@ -20,14 +20,13 @@ export default function StudentLoginPage() {
       setError(err.message);
       setLoading(false);
     } else {
-      window.location.href = "/e-learning";
+      window.location.href = "/student/dashboard";
     }
   }
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0fdf4", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px 16px" }}>
       <div style={{ width: "100%", maxWidth: "420px" }}>
-        {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "28px" }}>
           <div style={{ width: "72px", height: "72px", borderRadius: "50%", overflow: "hidden", border: "3px solid #2E8B57", margin: "0 auto 12px", backgroundColor: "white" }}>
             <Image src="/asup-logo.png" alt="ASUP Logo" width={72} height={72} style={{ width: "100%", height: "100%", objectFit: "cover" }} />

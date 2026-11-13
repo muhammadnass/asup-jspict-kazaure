@@ -41,7 +41,7 @@ export default async function AdminStudentsPage() {
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
         <thead>
           <tr style={{ backgroundColor: "#f9fafb" }}>
-            {["Name", "Email", "Department", "Level", "Reg. No.", "Action"].map(h => (
+            {["Name", "Email", "Department", "Level", "Matric No.", "Action"].map(h => (
               <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "#6b7280", fontWeight: "600", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px", borderBottom: "1px solid #e5e7eb" }}>{h}</th>
             ))}
           </tr>
@@ -53,7 +53,7 @@ export default async function AdminStudentsPage() {
               <td style={{ padding: "12px 14px", color: "#6b7280" }}>{s.email}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.department}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.level}</td>
-              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.reg_no ?? "—"}</td>
+              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.matric_no ?? "—"}</td>
               <td style={{ padding: "12px 14px" }}>
                 <ToggleButton studentId={s.id} approved={s.approved} />
               </td>
