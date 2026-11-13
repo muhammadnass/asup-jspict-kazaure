@@ -27,7 +27,7 @@ export default async function AdminRolesPage() {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) redirect("/admin/login");
 
-  const { data: admin } = await supabase.from("admins").select("id").eq("email", session.user.email).single();
+  const { data: admin } = await supabase.from("admins").select("user_id").eq("user_id", session.user.id).single();
   if (!admin) redirect("/admin/login");
 
   const { data: hods } = await supabase.from("hod_users").select("*").order("created_at", { ascending: false });

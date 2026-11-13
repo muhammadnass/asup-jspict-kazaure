@@ -25,7 +25,7 @@ export default async function AdminStudentsPage() {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) redirect("/admin/login");
 
-  const { data: admin } = await supabase.from("admins").select("id").eq("email", session.user.email).single();
+  const { data: admin } = await supabase.from("admins").select("user_id").eq("user_id", session.user.id).single();
   if (!admin) redirect("/admin/login");
 
   const { data: students } = await supabase
@@ -53,7 +53,7 @@ export default async function AdminStudentsPage() {
               <td style={{ padding: "12px 14px", color: "#6b7280" }}>{s.email}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.department}</td>
               <td style={{ padding: "12px 14px", color: "#374151" }}>{s.level}</td>
-              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.matric_no ?? "—"}</td>
+              <td style={{ padding: "12px 14px", fontFamily: "monospace", color: "#6b7280", fontSize: "12px" }}>{s.reg_no ?? "—"}</td>
               <td style={{ padding: "12px 14px" }}>
                 <ToggleButton studentId={s.id} approved={s.approved} />
               </td>
