@@ -15,13 +15,12 @@ function LoginWall({ message }: { message?: string }) {
             Course Materials & Resources
           </h1>
           <p style={{ color: "#9ca3af", fontSize: "14px", lineHeight: "1.7", maxWidth: "480px", margin: "0 auto" }}>
-            Access lecture videos, PDF notes, presentation slides and assignments uploaded by your lecturers.
+            Access lecture notes, videos, PDF downloads, and quizzes — all from your JSPICT account.
           </p>
         </div>
       </div>
 
       <div style={{ maxWidth: "680px", margin: "0 auto", padding: "clamp(24px,5vw,48px) 20px" }}>
-
         {message && (
           <div style={{ backgroundColor: "#fff7ed", border: "1px solid #fed7aa", borderRadius: "10px", padding: "14px 18px", marginBottom: "24px", color: "#9a3412", fontSize: "13px", fontWeight: "600", textAlign: "center" }}>
             ⚠️ {message}
@@ -34,7 +33,7 @@ function LoginWall({ message }: { message?: string }) {
             <div style={{ fontSize: "36px" }}>🎓</div>
             <div>
               <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "800", margin: "0 0 2px" }}>I am a Student</h2>
-              <p style={{ color: "#6b7280", fontSize: "13px", margin: 0 }}>Access your course content and learning materials</p>
+              <p style={{ color: "#6b7280", fontSize: "13px", margin: 0 }}>Access lecture notes, quizzes and track your progress</p>
             </div>
           </div>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
@@ -75,7 +74,6 @@ function LoginWall({ message }: { message?: string }) {
             Lecturer accounts require admin approval before you can upload materials.
           </p>
         </div>
-
       </div>
     </div>
   );
@@ -85,40 +83,26 @@ export default async function ELearningPage() {
   const supabase = createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
-  // No session at all → login wall
   if (!session) return <LoginWall />;
 
   const userId = session.user.id;
   const userEmail = session.user.email ?? "";
 
-  // Check if approved member (lecturer)
-  const { data: member } = await supabase
-    .from("members")
-    .select("id, full_name, is_approved")
-    .eq("user_id", userId)
-    .single();
-
-  // Check if approved student
-  const { data: student } = await supabase
-    .from("students")
-    .select("id, full_name, is_approved")
-    .eq("email", userEmail)
-    .single();
+  const { data: member } = await supabase.from("members").select("id,full_name,is_approved").eq("user_id", userId).single();
+  const { data: student } = await supabase.from("students").select("id,full_name,is_approved").eq("email", userEmail).single();
 
   const isApprovedMember = member?.is_approved === true;
   const isApprovedStudent = student?.is_approved === true;
 
-  // Has a record but not approved yet
   if ((member && !isApprovedMember) || (student && !isApprovedStudent)) {
     return <LoginWall message="Your account is pending admin approval. You will be notified via WhatsApp once approved." />;
   }
 
-  // Session exists but not a member or student at all (e.g. admin logged in)
   if (!isApprovedMember && !isApprovedStudent) {
     return <LoginWall message="Please sign in with your student or lecturer account to access course materials." />;
   }
 
-  // ── AUTHORISED: show courses ──
+  // ── Fetch lecturer-uploaded courses ──
   const { data: courses } = await supabase
     .from("courses")
     .select("*, members(full_name, photo_url, role, department, title)")
@@ -137,15 +121,18 @@ export default async function ELearningPage() {
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+      {/* Header */}
       <div style={{ background: "linear-gradient(135deg, #00214D, #003d99)", padding: "40px 24px" }}>
         <div style={{ maxWidth: "1000px", margin: "0 auto", display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
           <div>
             <p style={{ color: "#FFB81C", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>
               JSPICT E-Learning Platform
             </p>
-            <h1 style={{ color: "white", fontSize: "clamp(20px,5vw,28px)", fontWeight: "800", marginBottom: "4px" }}>Course Materials</h1>
+            <h1 style={{ color: "white", fontSize: "clamp(20px,5vw,28px)", fontWeight: "800", marginBottom: "4px" }}>
+              Welcome back, {displayName.split(" ")[0]}! 👋
+            </h1>
             <p style={{ color: "#9ca3af", fontSize: "13px", margin: 0 }}>
-              Welcome, {displayName.split(" ")[0]} — {list.length} course{list.length !== 1 ? "s" : ""} available
+              What would you like to do today?
             </p>
           </div>
           <form action={isApprovedStudent ? "/api/student/logout" : "/api/member/logout"} method="POST">
@@ -157,11 +144,49 @@ export default async function ELearningPage() {
       </div>
 
       <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "32px 24px" }}>
+
+        {/* Quick access cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "14px", marginBottom: "36px" }}>
+          <Link href="/e-learning/programmes" style={{ textDecoration: "none" }}>
+            <div style={{ backgroundColor: "#00214D", color: "white", borderRadius: "12px", padding: "24px 20px", cursor: "pointer" }}>
+              <div style={{ fontSize: "32px", marginBottom: "12px" }}>📚</div>
+              <h3 style={{ color: "white", fontSize: "16px", fontWeight: "800", margin: "0 0 4px" }}>Lecture Notes</h3>
+              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "12px", margin: 0 }}>
+                AI-generated notes for all courses. Read, download & quiz yourself.
+              </p>
+            </div>
+          </Link>
+
+          {isApprovedStudent && (
+            <Link href="/student/dashboard" style={{ textDecoration: "none" }}>
+              <div style={{ backgroundColor: "#2E8B57", color: "white", borderRadius: "12px", padding: "24px 20px", cursor: "pointer" }}>
+                <div style={{ fontSize: "32px", marginBottom: "12px" }}>📊</div>
+                <h3 style={{ color: "white", fontSize: "16px", fontWeight: "800", margin: "0 0 4px" }}>My Dashboard</h3>
+                <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "12px", margin: 0 }}>
+                  Track progress, streaks, points and badges.
+                </p>
+              </div>
+            </Link>
+          )}
+
+          <div style={{ backgroundColor: "#FFB81C", borderRadius: "12px", padding: "24px 20px" }}>
+            <div style={{ fontSize: "32px", marginBottom: "12px" }}>🎥</div>
+            <h3 style={{ color: "#00214D", fontSize: "16px", fontWeight: "800", margin: "0 0 4px" }}>Video Lectures</h3>
+            <p style={{ color: "#92400e", fontSize: "12px", margin: 0 }}>
+              Uploaded by your lecturers below.
+            </p>
+          </div>
+        </div>
+
+        {/* Lecturer-uploaded courses */}
+        <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "800", marginBottom: "16px" }}>
+          🎥 Uploaded Course Materials
+        </h2>
         {list.length === 0 ? (
-          <div style={{ backgroundColor: "white", borderRadius: "12px", padding: "60px 24px", textAlign: "center" }}>
-            <p style={{ fontSize: "48px", marginBottom: "12px" }}>🎓</p>
-            <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>No Courses Yet</h2>
-            <p style={{ color: "#6b7280", fontSize: "14px" }}>Lecturers will upload course materials soon. Check back later.</p>
+          <div style={{ backgroundColor: "white", borderRadius: "12px", padding: "60px 24px", textAlign: "center", border: "1px solid #e5e7eb" }}>
+            <p style={{ fontSize: "48px", marginBottom: "12px" }}>📂</p>
+            <h2 style={{ color: "#00214D", fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>No Uploaded Materials Yet</h2>
+            <p style={{ color: "#6b7280", fontSize: "14px" }}>Lecturers will upload videos, PDFs and slides here. Meanwhile, check out the Lecture Notes above!</p>
           </div>
         ) : (
           Object.entries(byDept).map(([dept, deptCourses]) => (
