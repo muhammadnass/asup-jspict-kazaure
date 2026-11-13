@@ -73,6 +73,10 @@ export default function RegisterPage() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); setError("");
+    if (!email.toLowerCase().endsWith("@jspict.edu.ng")) {
+      setError("Only @jspict.edu.ng email addresses are allowed.");
+      setLoading(false); return;
+    }
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) { setError(error.message); setLoading(false); return; }
     setUserId(data.user?.id ?? "");

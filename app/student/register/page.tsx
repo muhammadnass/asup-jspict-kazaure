@@ -32,6 +32,10 @@ export default function StudentRegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); setError("");
+    if (!form.email.toLowerCase().endsWith("@jspict.edu.ng")) {
+      setError("Only @jspict.edu.ng email addresses are allowed.");
+      setLoading(false); return;
+    }
 
     try {
       const res = await fetch("/api/student/register", {
