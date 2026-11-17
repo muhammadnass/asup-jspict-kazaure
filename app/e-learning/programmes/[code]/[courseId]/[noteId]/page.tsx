@@ -28,8 +28,13 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   if (questions.length === 0) return null;
+
+  function stripPrefix(opt: string): string {
+    return opt.replace(/^[A-D]\.\s*/, "");
+  }
 
   const score = questions.filter(q => answers[q.id] === q.answer).length;
 
@@ -41,8 +46,7 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
     setSubmitted(true);
     if (!studentId) return;
     setSaving(true);
-    // Record quiz attempts
-    const response = await fetch("/api/student/quiz-submit", {
+    await fetch("/api/student/quiz-submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ noteId, attempts: Object.entries(answers).map(([quizId, selected]) => ({
@@ -54,9 +58,18 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
     setSaving(false);
   };
 
+  const handleRetry = () => {
+    setAnswers({});
+    setSubmitted(false);
+    setAttempt(a => a + 1);
+  };
+
   return (
     <div style={{ marginTop: "48px", borderTop: "2px dashed #e5e7eb", paddingTop: "32px" }}>
-      <h2 style={{ color: "#00214D", fontSize: "20px", fontWeight: "800", marginBottom: "8px" }}>🧠 Quick Quiz</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <h2 style={{ color: "#00214D", fontSize: "20px", fontWeight: "800", margin: 0 }}>🧠 Quick Quiz</h2>
+        {attempt > 0 && <span style={{ color: "#9ca3af", fontSize: "12px" }}>Attempt {attempt + 1}</span>}
+      </div>
       <p style={{ color: "#6b7280", fontSize: "13px", marginBottom: "24px" }}>
         Test your understanding. Answer all {questions.length} question{questions.length !== 1 ? "s" : ""} then click Submit.
       </p>
@@ -67,7 +80,7 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
         const isWrong = submitted && selected && selected !== q.answer;
 
         return (
-          <div key={q.id} style={{ backgroundColor: "#f9fafb", borderRadius: "12px", padding: "20px", marginBottom: "16px", border: submitted ? (isCorrect ? "2px solid #2E8B57" : isWrong ? "2px solid #ef4444" : "2px solid #e5e7eb") : "2px solid transparent" }}>
+          <div key={`${q.id}-${attempt}`} style={{ backgroundColor: "#f9fafb", borderRadius: "12px", padding: "20px", marginBottom: "16px", border: submitted ? (isCorrect ? "2px solid #2E8B57" : isWrong ? "2px solid #ef4444" : "2px solid #e5e7eb") : "2px solid transparent" }}>
             <p style={{ color: "#00214D", fontSize: "15px", fontWeight: "700", marginBottom: "12px" }}>
               Q{i + 1}. {q.question}
             </p>
@@ -87,7 +100,7 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
                   <button key={optIdx} disabled={submitted}
                     onClick={() => !submitted && setAnswers(a => ({ ...a, [q.id]: letter }))}
                     style={{ textAlign: "left", backgroundColor: bg, border, borderRadius: "8px", padding: "10px 14px", cursor: submitted ? "default" : "pointer", color, fontSize: "14px", fontWeight: isSelected || (submitted && isAnswer) ? "600" : "400" }}>
-                    <span style={{ fontWeight: "700", marginRight: "8px" }}>{letter}.</span>{opt} {submitted && isAnswer && " ✓"} {submitted && isSelected && !isAnswer && " ✗"}
+                    <span style={{ fontWeight: "700", marginRight: "8px" }}>{letter}.</span>{stripPrefix(opt)} {submitted && isAnswer && "✓"} {submitted && isSelected && !isAnswer && "✗"}
                   </button>
                 );
               })}
@@ -109,20 +122,24 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
           Submit Answers
         </button>
       ) : (
-        <div style={{ backgroundColor: score === questions.length ? "#f0fdf4" : score >= questions.length / 2 ? "#fffbeb" : "#fef2f2", borderRadius: "12px", padding: "20px", textAlign: "center", border: "1px solid " + (score === questions.length ? "#86efac" : score >= questions.length / 2 ? "#fcd34d" : "#fca5a5") }}>
+        <div style={{ backgroundColor: score === questions.length ? "#f0fdf4" : score >= questions.length / 2 ? "#fffbeb" : "#fef2f2", borderRadius: "12px", padding: "24px", textAlign: "center", border: "1px solid " + (score === questions.length ? "#86efac" : score >= questions.length / 2 ? "#fcd34d" : "#fca5a5") }}>
           <p style={{ fontSize: "32px", marginBottom: "8px" }}>
             {score === questions.length ? "🎉" : score >= questions.length / 2 ? "👍" : "📖"}
           </p>
           <p style={{ color: "#00214D", fontSize: "18px", fontWeight: "800", marginBottom: "4px" }}>
             {score}/{questions.length} Correct
           </p>
-          <p style={{ color: "#6b7280", fontSize: "13px", margin: 0 }}>
+          <p style={{ color: "#6b7280", fontSize: "13px", margin: "0 0 16px" }}>
             {score === questions.length
               ? "Perfect score! You really understood this topic. 💯"
               : score >= questions.length / 2
               ? "Good job! Review the ones you missed and you will nail it next time."
               : "Keep studying — re-read the note above and try again."}
           </p>
+          <button onClick={handleRetry}
+            style={{ backgroundColor: "#00214D", color: "white", padding: "10px 24px", borderRadius: "8px", fontSize: "14px", fontWeight: "700", cursor: "pointer", border: "none" }}>
+            🔄 Try Again
+          </button>
         </div>
       )}
     </div>
@@ -195,7 +212,6 @@ export default function NotePage({ params }: { params: { code: string; courseId:
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
-      {/* Header */}
       <div style={{ background: `linear-gradient(135deg, ${levelColour}, #003d99)`, padding: "clamp(20px,4vw,40px) 24px" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <Link href={`/e-learning/programmes/${programme.code}/${course.id}`}
@@ -213,10 +229,8 @@ export default function NotePage({ params }: { params: { code: string; courseId:
         </div>
       </div>
 
-      {/* Content */}
       <div style={{ maxWidth: "800px", margin: "0 auto", padding: "clamp(24px,5vw,48px) 24px" }}>
 
-        {/* Download buttons */}
         {(note.pdf_url || note.word_url) && (
           <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fcd34d", borderRadius: "10px", padding: "14px 18px", marginBottom: "24px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
             <span style={{ color: "#92400e", fontSize: "13px", fontWeight: "600" }}>📥 Download this note:</span>
@@ -235,18 +249,12 @@ export default function NotePage({ params }: { params: { code: string; courseId:
           </div>
         )}
 
-        {/* Note content */}
         <div style={{ backgroundColor: "white", borderRadius: "14px", padding: "clamp(20px,5vw,40px)", border: "1px solid #e5e7eb", lineHeight: "1.8" }}>
-          <div
-            className="note-content"
-            dangerouslySetInnerHTML={{ __html: note.content }}
-          />
+          <div className="note-content" dangerouslySetInnerHTML={{ __html: note.content }} />
         </div>
 
-        {/* Quiz */}
         <QuizSection questions={quizzes} studentId={studentId} noteId={note.id} />
 
-        {/* Mark complete + navigation */}
         <div style={{ marginTop: "32px", display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             {prevNote && (
@@ -256,7 +264,6 @@ export default function NotePage({ params }: { params: { code: string; courseId:
               </Link>
             )}
           </div>
-
           <div style={{ display: "flex", gap: "10px" }}>
             {studentId && !completed && (
               <button onClick={markComplete} disabled={marking}
