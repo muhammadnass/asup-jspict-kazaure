@@ -13,9 +13,9 @@ export default async function ProgrammePage({ params }: { params: { code: string
   const userEmail = session.user.email ?? "";
 
   const { data: member } = await supabase.from("members").select("id,full_name,is_approved").eq("user_id", userId).single();
-  const { data: student } = await supabase.from("students").select("id,full_name,is_approved").eq("email", userEmail).single();
+  const { data: student } = await supabase.from("students").select("id,full_name,approved").eq("email", userEmail).single();
 
-  if (!member?.is_approved && !student?.is_approved) redirect("/e-learning");
+  if (!member?.is_approved && !student?.approved) redirect("/e-learning");
 
   const { data: programme } = await supabase
     .from("programmes").select("*").eq("code", params.code).single();
