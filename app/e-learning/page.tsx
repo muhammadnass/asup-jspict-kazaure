@@ -89,10 +89,10 @@ export default async function ELearningPage() {
   const userEmail = session.user.email ?? "";
 
   const { data: member } = await supabase.from("members").select("id,full_name,is_approved").eq("user_id", userId).single();
-  const { data: student } = await supabase.from("students").select("id,full_name,is_approved").eq("email", userEmail).single();
+  const { data: student } = await supabase.from("students").select("id,full_name,approved").eq("email", userEmail).single();
 
   const isApprovedMember = member?.is_approved === true;
-  const isApprovedStudent = student?.is_approved === true;
+  const isApprovedStudent = student?.approved === true;
 
   if ((member && !isApprovedMember) || (student && !isApprovedStudent)) {
     return <LoginWall message="Your account is pending admin approval. You will be notified via WhatsApp once approved." />;
