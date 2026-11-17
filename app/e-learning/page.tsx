@@ -152,7 +152,7 @@ export default async function ELearningPage() {
               <div style={{ fontSize: "32px", marginBottom: "12px" }}>📚</div>
               <h3 style={{ color: "white", fontSize: "16px", fontWeight: "800", margin: "0 0 4px" }}>Lecture Notes</h3>
               <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "12px", margin: 0 }}>
-                AI-generated notes for all courses. Read, download & quiz yourself.
+                Course notes for all programmes. Read, download & quiz yourself.
               </p>
             </div>
           </Link>

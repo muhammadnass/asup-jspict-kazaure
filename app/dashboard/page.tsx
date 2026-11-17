@@ -161,6 +161,7 @@ export default function DashboardPage() {
     { id: "profile", label: "My Profile" },
     { id: "publications", label: "Publications" },
     { id: "articles", label: "My Articles" },
+    { id: "notes", label: "📚 Lecture Notes" },
     { id: "assessments", label: "📝 Assessments" },
   ];
 
