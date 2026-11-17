@@ -13,9 +13,9 @@ export default async function ProgrammesPage() {
   const userEmail = session.user.email ?? "";
 
   const { data: member } = await supabase.from("members").select("id,full_name,is_approved").eq("user_id", userId).single();
-  const { data: student } = await supabase.from("students").select("id,full_name,is_approved").eq("email", userEmail).single();
+  const { data: student } = await supabase.from("students").select("id,full_name,approved").eq("email", userEmail).single();
 
-  if (!member?.is_approved && !student?.is_approved) redirect("/e-learning");
+  if (!member?.is_approved && !student?.approved) redirect("/e-learning");
 
   const { data: programmes } = await supabase.from("programmes").select("*").order("created_at");
   const { data: allCourses } = await supabase.from("ln_courses").select("id,programme_id");
@@ -26,7 +26,7 @@ export default async function ProgrammesPage() {
   });
 
   const displayName = member?.full_name ?? student?.full_name ?? "there";
-  const isStudent = !!student?.is_approved;
+  const isStudent = !!student?.approved;
 
   const levelColour: Record<string, string> = {
     ND: "#2E8B57",
