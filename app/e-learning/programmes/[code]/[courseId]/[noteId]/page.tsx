@@ -72,8 +72,8 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
               Q{i + 1}. {q.question}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {q.options.map((opt) => {
-                const letter = opt[0];
+              {q.options.map((opt, optIdx) => {
+                const letter = ["A","B","C","D"][optIdx] ?? String(optIdx);
                 const isSelected = selected === letter;
                 const isAnswer = q.answer === letter;
                 let bg = "white";
@@ -84,10 +84,10 @@ function QuizSection({ questions, studentId, noteId }: { questions: QuizQuestion
                 if (submitted && isSelected && !isAnswer) { bg = "#fef2f2"; border = "1.5px solid #ef4444"; color = "#dc2626"; }
 
                 return (
-                  <button key={opt} disabled={submitted}
+                  <button key={optIdx} disabled={submitted}
                     onClick={() => !submitted && setAnswers(a => ({ ...a, [q.id]: letter }))}
                     style={{ textAlign: "left", backgroundColor: bg, border, borderRadius: "8px", padding: "10px 14px", cursor: submitted ? "default" : "pointer", color, fontSize: "14px", fontWeight: isSelected || (submitted && isAnswer) ? "600" : "400" }}>
-                    {opt} {submitted && isAnswer && " ✓"} {submitted && isSelected && !isAnswer && " ✗"}
+                    <span style={{ fontWeight: "700", marginRight: "8px" }}>{letter}.</span>{opt} {submitted && isAnswer && " ✓"} {submitted && isSelected && !isAnswer && " ✗"}
                   </button>
                 );
               })}
