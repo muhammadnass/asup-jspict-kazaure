@@ -13,9 +13,9 @@ export default async function CoursePage({ params }: { params: { code: string; c
   const userEmail = session.user.email ?? "";
 
   const { data: member } = await supabase.from("members").select("id,full_name,is_approved").eq("user_id", userId).single();
-  const { data: student } = await supabase.from("students").select("id,full_name,is_approved").eq("email", userEmail).single();
+  const { data: student } = await supabase.from("students").select("id,full_name,approved").eq("email", userEmail).single();
 
-  if (!member?.is_approved && !student?.is_approved) redirect("/e-learning");
+  if (!member?.is_approved && !student?.approved) redirect("/e-learning");
 
   const { data: course } = await supabase.from("ln_courses").select("*").eq("id", params.courseId).single();
   if (!course) notFound();
@@ -68,7 +68,7 @@ export default async function CoursePage({ params }: { params: { code: string; c
           </div>
 
           {/* Progress bar */}
-          {student?.is_approved && (
+          {student?.approved && (
             <div style={{ marginTop: "20px" }}>
               <div style={{ height: "6px", backgroundColor: "rgba(255,255,255,0.2)", borderRadius: "3px", overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${progressPct}%`, backgroundColor: "#FFB81C", borderRadius: "3px", transition: "width 0.5s" }} />
