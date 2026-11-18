@@ -38,8 +38,9 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // If no source text provided, generate from course code + title alone
   if (!contextText.trim()) {
-    return NextResponse.json({ error: "No source content provided" }, { status: 400 });
+    contextText = `Course: ${courseCode} – ${courseTitle}\n\nGenerate questions based on the typical curriculum topics covered in this course for Nigerian ND/HND polytechnic students.`;
   }
 
   const totalQuestions = (mcqCount ?? 0) + (tfCount ?? 0);
