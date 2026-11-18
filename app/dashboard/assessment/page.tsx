@@ -61,13 +61,25 @@ export default function AssessmentPage() {
 
   useEffect(() => { loadAssessments(); }, []);
 
+  // Load notes whenever we enter the questions step with a current assessment
+  useEffect(() => {
+    if (step === "questions" && current) {
+      loadNotes(current.course_code);
+    }
+  }, [step, current]);
+
   const loadAssessments = async () => {
     const r = await fetch("/api/assessment/list");
     if (r.ok) setAssessments(await r.json());
   };
 
-  const loadNotes = async (programmeCode: string) => {
-    const r = await fetch(`/api/assessment/course-notes?programme=${programmeCode}`);
+  const loadNotes = async (courseCodeOrProgramme: string) => {
+    // Try by programme first, fallback to course code prefix
+    const programme = courseCodeOrProgramme.startsWith("COM") || courseCodeOrProgramme.startsWith("CSC") ? "ND-CS"
+      : courseCodeOrProgramme.startsWith("NCC") ? "HND-NCC"
+      : courseCodeOrProgramme.startsWith("SWD") ? "HND-SWD"
+      : "ND-CS";
+    const r = await fetch(`/api/assessment/course-notes?programme=${programme}`);
     if (r.ok) setNotes(await r.json());
   };
 
@@ -83,8 +95,7 @@ export default function AssessmentPage() {
       const data = await r.json();
       setCurrent(data);
       setStep("questions");
-      // Load notes for this course's programme
-      loadNotes(data.programme_code ?? "ND-CS");
+      // notes will be loaded by the useEffect above
     }
     setSaving(false);
   };
@@ -125,7 +136,6 @@ export default function AssessmentPage() {
   const saveAndActivate = async (action: "save" | "open") => {
     if (!current) return;
     setSaving(true);
-    // Save all questions
     await fetch("/api/assessment/save-questions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -189,7 +199,7 @@ export default function AssessmentPage() {
                   📄 PDF
                 </a>
                 {a.status === "draft" && (
-                  <button onClick={() => { setCurrent(a); setStep("questions"); }}
+                  <button onClick={() => { setCurrent(a); setQuestions([]); setStep("questions"); }}
                     style={{ backgroundColor: "#eff6ff", color: "#1d4ed8", padding: "7px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "600", border: "none", cursor: "pointer" }}>
                     ✏️ Edit
                   </button>
@@ -309,10 +319,29 @@ export default function AssessmentPage() {
           </div>
         )}
 
+        {/* Hint when no source is provided */}
+        {!pastedText.trim() && selectedNotes.length === 0 && (
+          <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "12px", color: "#92400e" }}>
+            💡 <strong>Tip:</strong> Select lecture notes above or paste your own topic notes to get better questions. You can also generate directly from the course name.
+          </div>
+        )}
+
         {genError && <p style={{ color: "#dc2626", fontSize: "13px", marginBottom: "10px" }}>⚠️ {genError}</p>}
 
-        <button onClick={generateQuestions} disabled={generating || (!pastedText.trim() && selectedNotes.length === 0)}
-          style={{ backgroundColor: "#2E8B57", color: "white", padding: "12px 24px", borderRadius: "8px", fontWeight: "700", fontSize: "14px", border: "none", cursor: "pointer" }}>
+        <button
+          onClick={generateQuestions}
+          disabled={generating}
+          style={{
+            backgroundColor: generating ? "#9ca3af" : "#2E8B57",
+            color: "white",
+            padding: "12px 24px",
+            borderRadius: "8px",
+            fontWeight: "700",
+            fontSize: "14px",
+            border: "none",
+            cursor: generating ? "not-allowed" : "pointer",
+            opacity: generating ? 0.7 : 1,
+          }}>
           {generating ? "⏳ Generating with AI…" : "⚡ Generate Questions"}
         </button>
       </div>
